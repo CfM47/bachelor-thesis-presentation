@@ -41,6 +41,14 @@ class CoverSlide(Slide):
             .shift(UP * 0.2)
         )
 
+        logo = (
+            SVGMobject("assets/uh_logo.svg")
+            .scale(0.5)
+            .move_to(
+                (title.get_top() + top_rule.get_bottom())
+                / 2  # centra el logo entre el título y la regla superior
+            )
+        )
         # --- Autor y tutores ---
         author = Tex("Autor: Jossué Arteche Muñoz", font_size=34)
 
@@ -69,6 +77,7 @@ class CoverSlide(Slide):
             institution,
             top_rule,
             title,
+            logo,
             people,
             bottom_rule,
             date,
