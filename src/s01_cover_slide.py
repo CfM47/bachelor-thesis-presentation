@@ -1,6 +1,5 @@
 from manim import *
-
-from utils.layout import ThesisSlide
+from manim_slides.slide import Slide
 
 config.background_color = WHITE
 
@@ -15,7 +14,7 @@ Square.set_default(color=BLACK)
 RoundedRectangle.set_default(color=BLACK)
 
 
-class CoverSlide(ThesisSlide):
+class CoverSlide(Slide):
 
     def construct(self):
         # --- Cabecera institucional ---
