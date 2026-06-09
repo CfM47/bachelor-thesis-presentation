@@ -25,6 +25,9 @@
 \usepackage{tikz}
 \usetikzlibrary{automata, positioning}
 
+\newcommand{\aut}[1]{\mathcal{A}_{#1}}
+\newcommand{\satlang}[1]{L_{sat}(#1)}
+
 % \AtBeginSection[]{
 %     \begin{frame}{Contenido}
 %         \tableofcontents[currentsection]
@@ -34,9 +37,11 @@
 % Información del título
 \title[SAT y la intersección con $\mathcal{L}(REG)$]
 {El problema de la satisfacibilidad booleana y el vacío de la intersección con lenguajes regulares}
-\author[J. Arteche]
-{Jossué Arteche Muñoz}
+
+\author{Jossué Arteche Muñoz}
+
 \institute[MATCOM]{Facultad de Matemática y Computación \\ Universidad de La Habana}
+
 \date{10 de junio del 2026}
 
 \newcommand{\tutores}{MSc. Fernando Raul Rodriguez Flores \\ Lic. Raudel Alejandro Gómez Molina}
@@ -52,6 +57,530 @@
         Tutores: \tutores \\ % Muestra el nombre de los tutores
         \smallskip
     \end{center}
+\end{frame}
+
+\begin{frame}{Problema de la satisfacibilidad booleana (SAT)}
+    \begin{itemize}
+        \item Determinar si una fórmula booleana es satisfacible.
+
+              \pause
+
+        \item Primer problema demostrado NP-completo.
+
+              \pause
+
+              % fotos de perritos y gatitos
+        \item Aplicaciones:
+              \begin{itemize}
+                  \item Verificación formal de hardware y software.
+                  \item Planificación y calendarización.
+                  \item Inteligencia artificial y razonamiento automático.
+                  \item Diseño y optimización de circuitos.
+              \end{itemize}
+
+              \pause
+
+        \item Resolver SAT eficientemente implica demostrar $P = NP$.
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Enfoque basado en lenguajes formales}
+    \begin{itemize}
+        \item En MATCOM se estudian enfoques basados en lenguajes formales.
+
+              \pause
+
+        \item A partir de una instancia de SAT se construye un DFA.
+
+              \pause
+
+        \item Se hacen consistentes las interpretaciones con formalismos:
+              \vspace{0.8cm}
+
+              \begin{columns}[c]
+                  \column{0.33\textwidth}
+                  \centering
+                  \textbf{Gramáticas}\\
+                  \textbf{Libres de Contexto}
+
+                  \column{0.33\textwidth}
+                  \centering
+                  \textbf{Gramáticas}\\
+                  \textbf{Matriciales}
+
+                  \column{0.33\textwidth}
+                  \centering
+                  \textbf{Gramáticas de}\\
+                  \textbf{Concatenación de Rango}
+              \end{columns}
+
+        \item Se determina si es vacía la intersección.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Enfoque basado en lenguajes formales}
+
+    Si existiera un formalismo que:
+
+    \pause
+
+    \begin{itemize}
+        \item Puede intersectarse eficientemente con un DFA.
+
+              \pause
+
+        \item Tiene problema del vacío decidible en tiempo polinomial.
+    \end{itemize}
+
+    \vspace{0.8cm}
+
+    \pause
+
+    \begin{center}
+        \Large
+        Entonces SAT podría resolverse en tiempo polinomial.
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Enfoque basado en lenguajes formales}
+
+    \begin{columns}
+
+        \column{0.45\textwidth}
+
+        % Imagen de la portada
+        \centering
+        \includegraphics[width=1\textwidth]{articulo1991.png}
+
+        \column{0.55\textwidth}
+
+        \pause
+
+        Se definen las \textbf{gramáticas libres de contexto múltiple paralelas} (pMCFG).
+
+        \vspace{0.5cm}
+
+        \pause
+
+        \begin{itemize}
+            \item Se pueden intersectar con un DFA.
+
+                  \pause
+
+            \item Tienen vacío decidible en tiempo polinomial.
+        \end{itemize}
+
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}
+
+    \begin{center}
+
+        {\Huge Por tanto}
+
+    \end{center}
+
+    \pause
+
+    \vfill
+
+    \begin{center}
+        {\Huge $P = NP$}
+    \end{center}
+
+    \vfill
+
+    \pause
+
+    \begin{center}
+        {\Large ...pero eso no es lo que vamos a ver hoy.}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Objetivos del trabajo}
+
+    \pause
+
+    \begin{block}{Objetivo 1}
+        Formular un teorema que caracterice los formalismos capaces de describir interpretaciones satisfacibles.
+    \end{block}
+
+    \pause
+
+    \begin{block}{Objetivo 2}
+        Analizar críticamente las propiedades de las pMCFG propuestas en la literatura.
+    \end{block}
+
+\end{frame}
+
+\begin{frame}{Estructura de la presentación}
+    \tableofcontents
+\end{frame}
+
+\section{Preliminares}
+
+\subsection{Teoría de lenguajes}
+
+\begin{frame}{Teoría de lenguajes}
+
+    \pause
+
+    \begin{itemize}
+
+        \item \textbf{Alfabeto} ($\Sigma$):
+              conjunto finito de símbolos.
+
+              $$
+                  \Sigma=\{a,b,c\}
+              $$
+
+              \pause
+
+        \item \textbf{Cadena}:
+              secuencia finita de símbolos de $\Sigma$.
+
+              $$
+                  abca \in \Sigma^*
+                  \qquad
+                  \varepsilon \text{ (cadena vacía)}
+              $$
+
+              \pause
+
+        \item \textbf{Concatenación}:
+
+              $$
+                  \alpha = ab \text{ y } \beta = ca \implies \alpha\beta = abca
+              $$
+
+              \pause
+
+        \item \textbf{Lenguaje}:
+              conjunto de cadenas.
+
+              $$
+                  L=\{a^n b^n \mid n \ge 0\}
+              $$
+
+              \pause
+
+        \item \textbf{Formalismo}:
+              mecanismo de algún tipo para describir lenguajes.
+
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Gramáticas}
+
+    \textbf{Definición}
+
+    Una gramática es un formalismo que genera cadenas mediante la aplicación de reglas de producción.
+
+    \pause
+
+    \[
+        G=(N,\Sigma,P,S)
+    \]
+
+    \begin{columns}
+
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item $N$: no terminales
+                \item $\Sigma$: terminales
+            \end{itemize}
+        \end{column}
+
+        \begin{column}{0.5\textwidth}
+            \begin{itemize}
+                \item $P$: producciones
+                \item $S$: símbolo inicial
+            \end{itemize}
+        \end{column}
+
+    \end{columns}
+
+    \pause
+
+    \vspace{0.3cm}
+    \hrule
+    \vspace{0.3cm}
+
+    \textbf{Ejemplo}
+
+    \begin{columns}
+
+        \begin{column}{0.35\textwidth}
+            \[
+                S \rightarrow aS
+            \]
+
+            \[
+                S \rightarrow b
+            \]
+        \end{column}
+
+        \begin{column}{0.65\textwidth}
+
+            \[
+                S \Rightarrow aS \Rightarrow aaS \Rightarrow aab
+            \]
+
+            \pause
+
+            \[
+                L(A)=\{a^n b \mid n\geq 0\}.
+            \]
+
+        \end{column}
+
+    \end{columns}
+
+\end{frame}
+
+\begin{frame}{Autómatas Finitos Deterministas (DFA)}
+
+    \pause
+
+    \textbf{Definición.}
+    Un DFA es un modelo computacional que reconoce cadenas recorriendo estados de acuerdo con los símbolos leídos.
+
+    \pause
+
+    \vspace{0.5cm}
+
+    \begin{center}
+        \begin{tikzpicture}[->,>=stealth,auto,node distance=3cm]
+
+            \node[state,initial] (q0) {$q_0$};
+            \node[state,right of=q0,accepting] (q1) {$q_1$};
+
+            \path
+            (q0) edge[loop above] node {$a$} ()
+            (q0) edge[bend left] node {$b$} (q1);
+
+        \end{tikzpicture}
+    \end{center}
+
+    \pause
+
+    Cadenas aceptadas:
+
+    \[
+        b,\; ab,\; aab,\; aaab,\ldots
+    \]
+
+    \pause
+
+    Por tanto,
+
+    \[
+        L(A)=\{a^n b \mid n\geq 0\}.
+    \]
+
+\end{frame}
+
+\begin{frame}{Problemas de interés}
+
+    \pause
+
+    \begin{block}{Intersección con DFA}
+        Dado una instancia de un formalismo $G$ y un DFA $\aut{}$,
+        ¿es posible construir una nueva instancia del mismo formalismo que describa
+
+        \[
+            L(G)\cap L(A)\,?
+        \]
+
+        \pause
+
+        Si la respuesta es sí, entonces el formalismo es
+        \textbf{cerrado bajo intersección con DFA}.
+    \end{block}
+
+    \pause
+
+    \begin{block}{Problema del vacío}
+        Dada una instancia de un formalismo $G$,
+
+        \[
+            L(G)=\emptyset\;?
+        \]
+
+        \pause
+
+        Determinar si el lenguaje generado contiene al menos una cadena.
+    \end{block}
+
+\end{frame}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\subsection{Definición de SAT}
+
+\begin{frame}{Problema de la satisfacibilidad booleana (SAT)}
+
+    \begin{itemize}
+        \item \textbf{Variable booleana: } $x_1,\; x_2,\; x_3,\ldots$ toman valores 1 (verdadero) o 0 (falso).
+
+              \pause
+
+        \item \textbf{Literal: } $x_i, \neg x_i$ (la variable o su negación).
+
+              \pause
+        \item \textbf{Cláusula: } Disyunción de literales.
+
+              \[
+                  (x_1 \vee \neg x_2 \vee x_3)
+              \]
+
+              \pause
+
+        \item \textbf{Forma Normal Conjuntiva (FNC)}
+
+              Conjunción de cláusulas.
+
+              \[
+                  (x_1 \vee \neg x_2 \vee x_3)
+                  \land
+                  (\neg x_1 \vee x_2)
+                  \land
+                  (x_2 \vee x_3)
+              \]
+
+              \pause
+
+              \textbf{Problema SAT}
+
+              ¿Existe una asignación de valores de verdad para las variables que haga verdadera toda la fórmula?
+    \end{itemize}
+
+
+\end{frame}
+
+\section{Construcción del lenguaje de las interpretaciones satisfacibles}
+
+\section{Codificación de las interpretaciones como cadenas}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\begin{frame}{Codificación de interpretaciones como cadenas}
+
+    \textbf{Idea}
+
+    \pause
+
+    Cada asignación de variables se representa como una cadena.
+
+    \vspace{0.3cm}
+
+    \pause
+
+    \textbf{Regla de codificación}
+
+    \begin{itemize}
+        \item Si la variable $x_i = 1$, el símbolo $i$ es $1$.
+              \pause
+        \item Si $x_i = 0$, el símbolo $i$ es $0$.
+              \pause
+        \item Se añade el símbolo final $d$.
+              \pause
+        \item Se repite la cadena por cada cláusula.
+    \end{itemize}
+
+    \vspace{0.2cm}
+
+    \pause
+
+    \hrule
+    \vspace{0.2cm}
+
+    \textbf{Ejemplo (4 variables, 2 cláusulas)}
+
+    \pause
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            Asignación:
+            \[
+                x_1=1,\; x_2=0,\; x_3=1,\; x_4=0
+            \]
+        \end{column}
+        \pause
+        \begin{column}{0.5\textwidth}
+            Cadena base:
+            \[
+                1010
+            \]
+
+            \pause
+        \end{column}
+    \end{columns}
+    \vspace{0.2cm}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            Con separador:
+            \[
+                1010d
+            \]
+
+            \pause
+
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            Como hay 2 cláusulas:
+            \[
+                1010d\;1010d
+            \]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Lenguaje de interpretaciones satisfacibles}
+
+    \pause
+
+    \textbf{Idea}
+
+    El conjunto de interpretaciones de una fórmula se puede representar como un lenguaje.
+
+    \vspace{0.4cm}
+
+    \pause
+
+    \textbf{Definición intuitiva}
+
+    \[
+        \satlang{F} =
+        \{\; w \mid w \text{ codifica una interpretación que satisface } F \;\}
+    \]
+
+    \vspace{0.5cm}
+
+    \pause
+
+    \begin{block}{Conexión con SAT}
+        \[
+            F \in SAT \;\Longleftrightarrow\; \satlang{F} \neq \emptyset
+        \]
+    \end{block}
+
+\end{frame}
+
+\subsection{Autómata fórmula}
+
+\begin{frame}
+    \tableofcontents
 \end{frame}
 
 
