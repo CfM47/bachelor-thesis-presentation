@@ -27,6 +27,7 @@
 
 \newcommand{\aut}[1]{\mathcal{A}_{#1}}
 \newcommand{\eword}{\epsilon}
+\newcommand{\gprod}{\rightarrow}
 
 % Lenguaje de todas las interpretaciones de una fórmula
 \newcommand{\allsatlang}{L_{\mathrm{all}}}
@@ -45,6 +46,8 @@
 
 % Lenguaje de repeticiones (wd)^k
 \newcommand{\repeatlang}{L_{0,1,d}}
+
+\newcommand{\repeatgramm}{G_{0, 1, d}}
 
 % -------------------- AUTÓMATAS --------------------
 
@@ -1137,5 +1140,354 @@
 
 \end{frame}
 
+\section{Analizar las pMCFG}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\begin{frame}{Gramáticas libres de contexto múltiples paralelas}
+
+    \pause
+
+    \textbf{Gramática usual}
+
+    \vspace{0.2cm}
+
+    \[
+        S \rightarrow aSb \quad \text{ permite hacer }\quad aaSbb \Rightarrow aaaSbbb
+    \]
+
+    \pause
+
+    \begin{itemize}
+        \item Los no terminales generan una \textbf{única cadena} $w \in T^*$.
+        \item Cada derivación produce un solo resultado.
+    \end{itemize}
+
+    \vspace{0.5cm}
+
+    \pause
+
+    \textbf{Gramática libre de contexto múltiple paralela (pMCFG)}
+
+    \[
+        A \rightarrow f(B, C)
+    \]
+
+    \pause
+
+    \[
+        f[(x_1, x_3), (x_2)] = (x_1 x_2, x_1 x_3)
+    \]
+
+    \pause
+
+    \begin{itemize}
+        \item Los no terminales generan \textbf{tuplas de cadenas} $(w_1, w_2, \dots, w_k)$.
+        \item Las componentes se combinan mediante una \textbf{función de reordenamiento}.
+        \item El símbolo inicial genera una tupla de un solo elemento.
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Funciones de reordenamiento}
+
+    \pause
+
+    Las funciones de reordenamiento determinan cómo se combinan las tuplas.
+
+    \vspace{0.5cm}
+
+    \pause
+
+    \textbf{Dos casos posibles}
+
+    \pause
+
+    \begin{itemize}
+        \item \textbf{Lineales:} cada variable aparece a lo sumo una vez en la salida.
+
+              \pause
+
+        \item \textbf{No lineales:} alguna variable puede repetirse en la salida.
+    \end{itemize}
+
+    \vspace{0.6cm}
+
+    \pause
+
+    \textbf{Caso especial}
+
+    Si todas las funciones son lineales, la gramática se denomina:
+
+    \[
+        \text{MCFG (Gramática libre de contexto múltiple)}
+    \]
+
+\end{frame}
+
+\begin{frame}{Intersección de pMCFG con DFA}
+
+    \pause
+
+    En el artículo de la introducción se propone un algoritmo para intersectar MCFG y pMCFG con DFA.
+
+    \pause
+
+    \begin{center}
+        \includegraphics[width=0.85\textwidth]{algorithm.png}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Intersección de pMCFG con DFA}
+
+    En el artículo de la introducción se propone un algoritmo para intersectar MCFG y pMCFG con DFA.
+
+
+    \begin{center}
+        \includegraphics[width=0.85\textwidth]{algorithm2.png}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Intersección de pMCFG con DFA}
+
+    En el artículo de la introducción se propone un algoritmo para intersectar MCFG y pMCFG con DFA.
+
+    \begin{center}
+        \includegraphics[width=0.7\textwidth]{algorithm3.png}
+    \end{center}
+
+    \pause
+
+    \begin{center}
+        \Huge \textit{...sencillo.}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}{Idea del algoritmo}
+
+    \pause
+
+    \textbf{No terminal enriquecido}
+
+    \[
+        A[(p_1,q_1),\ldots,(p_d,q_d)]
+    \]
+
+    \pause
+
+    \textbf{Producciones}
+
+    \[
+        A \rightarrow f(B,C)
+        \quad \quad
+        f[(x_1,x_2),(x_3)] = (x_1x_3,\; x_2)
+    \]
+
+    \pause
+
+    \textbf{Invariante}
+
+    \[
+        (w_1,\ldots,w_d)\in L(A[(p_1,q_1),\ldots,(p_d,q_d)])
+        \Longleftrightarrow
+        (w_1,\ldots,w_d)\in L(A)
+    \]
+
+    \begin{center}
+        y cada \(w_i\) lleva al DFA de \(p_i\) a \(q_i\).
+    \end{center}
+
+
+    \pause
+
+    \textbf{Símbolo inicial}
+
+    \[
+        S' \rightarrow S[(q_0,q_f)]
+        \qquad q_f \in F_{\mathcal A}
+    \]
+
+
+\end{frame}
+
+\begin{frame}{Complejidad de la construcción}
+    \begin{block}{Consecuencia}
+        La construcción es polinomial en el tamaño del DFA.
+    \end{block}
+
+    \pause
+
+    \begin{block}{Además}
+        Las MCFG poseen un algoritmo polinomial para decidir si son vacías.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Contraejemplo}
+
+    \pause
+
+    \textbf{pMCFG}
+
+    \[
+        S \rightarrow f(A)
+        \quad \quad
+        A \rightarrow g()
+    \]
+
+    \[
+        f[(x)]=xx
+        \qquad
+        g()=(a)
+    \]
+
+    \pause
+
+    \[
+        L(G)=\{aa\}
+    \]
+
+    \vspace{0.3cm}
+
+    \pause
+
+    \textbf{DFA que reconoce $\{aa\}$}
+
+    \begin{figure}[h]
+        \centering
+        \begin{otherlanguage}{english}
+            \begin{tikzpicture}[shorten >=1pt, node distance=2cm, on grid, auto]
+                \node[state, initial] (q_0)   {$q_0$};
+                \node[state] (q_1) [right=of q_0] {$q_1$};
+                \node[state, accepting] (q_2) [right=of q_1] {$q_2$};
+                \path[->]
+                (q_0) edge node {a} (q_1)
+                (q_1) edge node {a} (q_2);
+            \end{tikzpicture}
+        \end{otherlanguage}
+    \end{figure}
+
+    \pause
+
+    \[
+        L(G)\cap L(\mathcal A)=\{aa\}
+    \]
+
+\end{frame}
+
+\begin{frame}{¿Qué falla?}
+
+    \pause
+
+    La producción principal es
+
+    \[
+        S \rightarrow f(A)
+        \qquad
+        f(x)=xx
+    \]
+
+    \pause
+
+    Para reconocer la cadena \(aa\):
+
+    \[
+        q_0 \xrightarrow{x} q_1
+        \quad \quad
+        q_1 \xrightarrow{x} q_2
+    \]
+
+    \pause
+
+    Sin embargo, el algoritmo asigna un único par de estados a cada variable:
+
+    \[
+        A[(p,q)]
+        \quad \quad
+        (q_0,q_1)\neq(q_1,q_2)
+    \]
+
+    \vspace{0.4cm}
+
+    \pause
+
+    \begin{block}{Consecuencia}
+        Las dos ocurrencias de \(x\) necesitan pares de estados distintos.
+
+        La invariante del algoritmo deja de cumplirse.
+    \end{block}
+
+\end{frame}
+
+\begin{frame}{pMCFG para $\repeatlang$}
+
+    \[
+        \repeatlang =
+        \{(wd)^n \mid w \in \{0,1\}^*,\; n \ge 1\}
+    \]
+
+    \pause
+
+    Es posible construir una pMCFG $\repeatgramm$ para él, donde $N = \{S, C, A\}$ y $T = \{0, 1, d\}$. Se tiene que $P$ y $F$ contienen las siguientes producciones y funciones respectivamente:
+
+    \begin{columns}
+        \begin{column}{0.45\textwidth}
+            \begin{align*}
+                S & \gprod res(C)  \\
+                C & \gprod copy(C) \\
+                C & \gprod copy(A) \\
+                A & \gprod f_0(A)  \\
+                A & \gprod f_1(A)  \\
+                A & \gprod g()
+            \end{align*}
+        \end{column}
+        \hfill
+        \begin{column}{0.45\textwidth}
+            \begin{align*}
+                res[(x,y)]  & = (y)        \\
+                copy[(x,y)] & = (x,xy)     \\
+                \\
+                f_0[(x,y)]  & = (0x,y)     \\
+                f_1[(x,y)]  & = (1x,y)     \\
+                g()         & = (d,\eword)
+            \end{align*}
+        \end{column}
+    \end{columns}
+
+
+    \pause
+
+    \begin{block}{Resultado}
+        Existe una pMCFG de tamaño constante
+        $\repeatgramm$ que genera $\repeatlang$.
+    \end{block}
+
+\end{frame}
+
+\begin{frame}{Consecuencia}
+
+    \pause
+
+    Como no se puede tener simultáneamente que las pMCFG:
+
+    \begin{itemize}
+        \item sean cerradas bajo intersección con un DFA en tiempo polinomial, y
+              \pause
+        \item se decida si son vacías en tiempo polinomial,
+    \end{itemize}
+
+    y el problema de vacío para pMCFG es decidible en tiempo
+    polinomial necesariamente...
+
+    \pause
+
+    \begin{block}{Teorema}
+        No existe un algoritmo polinomial que construya una pMCFG para la intersección de una pMCFG con un DFA a menos que P = NP.
+    \end{block}
+\end{frame}
 
 \end{document}
