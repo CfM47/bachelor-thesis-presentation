@@ -1490,4 +1490,65 @@
     \end{block}
 \end{frame}
 
+\begin{frame}{Conclusiones}
+
+    \begin{block}{Teorema general}
+        Si un formalismo es capaz de generar
+        $\repeatlang$
+        con una representación de tamaño constante, entonces no es posible que:
+
+        \begin{itemize}
+            \item sea cerrado bajo intersección con DFA mediante una construcción polinomial,
+            \item y que el problema de vacío sea decidible en tiempo polinomial,
+        \end{itemize}
+
+        simultáneamente, a menos que P = NP.
+    \end{block}
+
+    \pause
+
+    \begin{alertblock}{Aplicación a las pMCFG}
+        No existe un algoritmo polinomial que construya una pMCFG para $L(G)\cap L(\mathcal A)$ dada una pMCFG $G$ y un DFA $\mathcal A$,
+        a menos que  $P = NP$
+    \end{alertblock}
+
+\end{frame}
+
+\begin{frame}{Recomendaciones y trabajo futuro}
+
+    \begin{itemize}
+
+        \item Estudiar formalismos capaces de generar
+              $\repeatlang$.
+              \pause
+
+        \item Demostrar o refutar que toda representación de $\repeatlang$ tiene tamaño constante.
+
+              \pause
+
+        \item Investigar si las gramáticas libres de contexto múltiples paralelas son cerradas bajo intersección con lenguajes regulares.
+
+              \pause
+
+        \item Analizar la complejidad del autómata para una fórmula en el caso en el que la fórmula está en 3-CNF.
+
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Recomendaciones y trabajo futuro}
+    \begin{itemize}
+        \item \large Demuestre o refute que P = NP.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \titlepage
+    \vspace{1cm} % Espacio adicional
+    \begin{center}
+        Tutores: \tutores \\ % Muestra el nombre de los tutores
+        \smallskip
+    \end{center}
+\end{frame}
+
 \end{document}
