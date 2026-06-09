@@ -1064,5 +1064,78 @@
     \tableofcontents
 \end{frame}
 
+\begin{frame}{Lenguaje de las repeticiones}
+
+    \pause
+
+    Se necesita obtener el lenguaje de interpretaciones satisfacibles:
+
+    \[
+        \satlang(F) =
+        \{\, w \mid w \text{ es una interpretación que satisface } F \,\}
+    \]
+
+    \vspace{0.4cm}
+
+    \pause
+
+    Se dispone de un autómata $\aut{F}$ que reconoce:
+
+    \[
+        \indlang(F) = \{w_1 d w_2 d \dots w_m d \mid w_i \text{ satisface } C_i\}
+    \]
+
+    \vspace{0.4cm}
+
+    \pause
+
+    Para forzar que todas las interpretaciones coincidan:
+
+    \[
+        w_1 = w_2 = \cdots = w_m = w
+    \]
+
+    \vspace{0.4cm}
+
+    \pause
+
+    Esto se logra intersectando con:
+
+    \[
+        \repeatlang = \{(wd)^k \mid w \in \{0,1\}^*,\; k \geq 1 \}
+    \]
+
+\end{frame}
+
+\begin{frame}{Reducción de SAT}
+
+    \pause
+
+    SAT se resuelve determinando si el lenguaje:
+
+    \[
+        \satlang(F) = L(\aut{F}) \cap \repeatlang
+    \]
+
+    es vacío.
+
+    \vspace{0.6cm}
+
+    \pause
+
+    \begin{block}{Teorema}
+        Si un formalismo es capaz de generar $\repeatlang$ con una representación de tamaño constante, entonces no es posible que:
+
+        \begin{itemize}
+            \item sea cerrado bajo intersección con un DFA en tiempo polinomial, y
+                  \pause
+            \item se decida si es vacío en tiempo polinomial,
+        \end{itemize}
+
+        simultáneamente. A menos que P = NP.
+    \end{block}
+
+\end{frame}
+
 
 \end{document}
