@@ -26,7 +26,35 @@
 \usetikzlibrary{automata, positioning}
 
 \newcommand{\aut}[1]{\mathcal{A}_{#1}}
-\newcommand{\satlang}[1]{L_{sat}(#1)}
+\newcommand{\eword}{\epsilon}
+
+% Lenguaje de todas las interpretaciones de una fórmula
+\newcommand{\allsatlang}{L_{\mathrm{all}}}
+
+% Lenguaje de interpretaciones satisfactorias de una fórmula
+\newcommand{\satlang}{L_{\mathrm{sat}}}
+
+% Lenguaje de interpretaciones independientes por cláusula
+\newcommand{\indlang}{L_{\mathrm{ind}}}
+
+% Lenguaje asociado a una cláusula
+\newcommand{\clauselang}[1]{L_{#1}}
+
+% Lenguaje asociado a una cláusula con separador d
+\newcommand{\dclauselang}[1]{L_{#1}^{d}}
+
+% Lenguaje de repeticiones (wd)^k
+\newcommand{\repeatlang}{L_{0,1,d}}
+
+% -------------------- AUTÓMATAS --------------------
+
+% Autómata cláusula
+% uso: \aut{C}
+% produce: \mathcal{A}_C
+
+% Autómata cláusula con separador
+\newcommand{\daut}[1]{\mathcal{A}_{#1}^{d}}
+
 
 % \AtBeginSection[]{
 %     \begin{frame}{Contenido}
@@ -468,7 +496,7 @@
 
 \section{Construcción del lenguaje de las interpretaciones satisfacibles}
 
-\section{Codificación de las interpretaciones como cadenas}
+\subsection{Codificación de las interpretaciones como cadenas}
 
 \begin{frame}
     \tableofcontents
@@ -583,6 +611,458 @@
     \tableofcontents
 \end{frame}
 
+\begin{frame}{Autómata cláusula}
+    \textbf{Lenguaje de una cláusula: } $L_C = \{w |\; w \text{ codifica una interpretación que satisface } C\}$
+
+    \textbf{Cláusula: }$(x_1 \lor \neg x_3)$ puede verse como $(x_1 \lor \cancel{x_2} \lor \neg x_3)$
+
+    \begin{figure}[t]
+        \begin{otherlanguage}{english}
+            \centering{
+                \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+
+                    % ------ Primera cláusula ------
+                    % Estados falsos
+                    \node[state, initial] (qf10) {	\textbf{F}};
+                    \node[state] (qf11) [right=of qf10] {	\textbf{F}};
+                    \node[state] (qf12) [right=of qf11] {	\textbf{F}};
+                    \node[state] (qf13) [right=of qf12] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt10) [above=2cm of qf10] {	\textbf{V}};
+                    \node[state] (qt11) [above=2cm of qf11] {	\textbf{V}};
+                    \node[state] (qt12) [above=2cm of qf12] {	\textbf{V}};
+                    \node[state] (qt13) [above=2cm of qf13] {	\textbf{V}};
+
+
+                    \path[->]
+
+                    % Transiciones de la primera cláusula
+                    % Desde qf0
+                    (qf10) edge node {1} (qt11)
+                    (qf10) edge node [below] {0} (qf11)
+
+                    ;
+
+                \end{tikzpicture}
+
+            }
+        \end{otherlanguage}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Autómata cláusula}
+    \textbf{Lenguaje de una cláusula: } $L_C = \{w |\; w \text{ codifica una interpretación que satisface } C\}$
+
+    \textbf{Cláusula: }$(x_1 \lor \neg x_3)$ puede verse como $(x_1 \lor \cancel{x_2} \lor \neg x_3)$
+
+    \begin{figure}[t]
+        \begin{otherlanguage}{english}
+            \centering{
+                \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+
+                    % ------ Primera cláusula ------
+                    % Estados falsos
+                    \node[state, initial] (qf10) {	\textbf{F}};
+                    \node[state] (qf11) [right=of qf10] {	\textbf{F}};
+                    \node[state] (qf12) [right=of qf11] {	\textbf{F}};
+                    \node[state] (qf13) [right=of qf12] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt10) [above=2cm of qf10] {	\textbf{V}};
+                    \node[state] (qt11) [above=2cm of qf11] {	\textbf{V}};
+                    \node[state] (qt12) [above=2cm of qf12] {	\textbf{V}};
+                    \node[state] (qt13) [above=2cm of qf13] {	\textbf{V}};
+
+
+                    \path[->]
+
+                    % Transiciones de la primera cláusula
+                    % Desde qf0
+                    (qf10) edge node {1} (qt11)
+                    (qf10) edge node [below] {0} (qf11)
+
+
+                    % Desde qf2
+                    (qf12) edge node {0} (qt13)
+                    (qf12) edge node [below] {1} (qf13)
+
+                    ;
+
+                \end{tikzpicture}
+
+            }
+        \end{otherlanguage}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Autómata cláusula}
+    \textbf{Lenguaje de una cláusula: } $L_C = \{w |\; w \text{ codifica una interpretación que satisface } C\}$
+
+    \textbf{Cláusula: }$(x_1 \lor \neg x_3)$ puede verse como $(x_1 \lor \cancel{x_2} \lor \neg x_3)$
+
+    \begin{figure}[t]
+        \begin{otherlanguage}{english}
+            \centering{
+                \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+
+                    % ------ Primera cláusula ------
+                    % Estados falsos
+                    \node[state, initial] (qf10) {	\textbf{F}};
+                    \node[state] (qf11) [right=of qf10] {	\textbf{F}};
+                    \node[state] (qf12) [right=of qf11] {	\textbf{F}};
+                    \node[state] (qf13) [right=of qf12] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt10) [above=2cm of qf10] {	\textbf{V}};
+                    \node[state] (qt11) [above=2cm of qf11] {	\textbf{V}};
+                    \node[state] (qt12) [above=2cm of qf12] {	\textbf{V}};
+                    \node[state] (qt13) [above=2cm of qf13] {	\textbf{V}};
+
+
+                    \path[->]
+
+                    % Transiciones de la primera cláusula
+                    % Desde qf0
+                    (qf10) edge node {1} (qt11)
+                    (qf10) edge node [below] {0} (qf11)
+
+                    % Desde qf1
+                    (qf11) edge node [below] {0, 1} (qf12)
+
+                    % Desde qf2
+                    (qf12) edge node {0} (qt13)
+                    (qf12) edge node [below] {1} (qf13)
+
+                    ;
+
+                \end{tikzpicture}
+
+            }
+        \end{otherlanguage}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Autómata cláusula}
+    \textbf{Lenguaje de una cláusula: } $L_C = \{w |\; w \text{ codifica una interpretación que satisface } C\}$
+
+    \textbf{Cláusula: }$(x_1 \lor \neg x_3)$ puede verse como $(x_1 \lor \cancel{x_2} \lor \neg x_3)$
+
+    \begin{figure}[t]
+        \begin{otherlanguage}{english}
+            \centering{
+                \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+
+                    % ------ Primera cláusula ------
+                    % Estados falsos
+                    \node[state, initial] (qf10) {	\textbf{F}};
+                    \node[state] (qf11) [right=of qf10] {	\textbf{F}};
+                    \node[state] (qf12) [right=of qf11] {	\textbf{F}};
+                    \node[state] (qf13) [right=of qf12] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt10) [above=2cm of qf10] {	\textbf{V}};
+                    \node[state] (qt11) [above=2cm of qf11] {	\textbf{V}};
+                    \node[state] (qt12) [above=2cm of qf12] {	\textbf{V}};
+                    \node[state] (qt13) [above=2cm of qf13] {	\textbf{V}};
+
+
+                    \path[->]
+
+                    % Transiciones de la primera cláusula
+                    % Desde qf0
+                    (qf10) edge node {1} (qt11)
+                    (qf10) edge node [below] {0} (qf11)
+
+                    % Desde qf1
+                    (qf11) edge node [below] {0, 1} (qf12)
+
+                    % Desde qf2
+                    (qf12) edge node {0} (qt13)
+                    (qf12) edge node [below] {1} (qf13)
+
+                    % Estados verdaderos permanecen verdaderos
+                    (qt10) edge node {0,1} (qt11)
+                    (qt11) edge node {0,1} (qt12)
+                    (qt12) edge node {0,1} (qt13)
+                    ;
+
+                \end{tikzpicture}
+
+            }
+        \end{otherlanguage}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Autómata cláusula con separador}
+    \textbf{Lenguaje de una cláusula con separador: } $L_C = \{wd |\; w \text{ codifica una interpretación que satisface } C\}$
+
+    \textbf{Cláusula: }$(x_1 \lor \neg x_3)$ puede verse como $(x_1 \lor \cancel{x_2} \lor \neg x_3)$
+
+    \begin{figure}[t]
+        \begin{otherlanguage}{english}
+            \centering
+            \scalebox{0.95}{
+                \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+
+                    % ------ Primera cláusula ------
+                    % Estados falsos
+                    \node[state, initial] (qf10) {	\textbf{F}};
+                    \node[state] (qf11) [right=of qf10] {	\textbf{F}};
+                    \node[state] (qf12) [right=of qf11] {	\textbf{F}};
+                    \node[state] (qf13) [right=of qf12] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt10) [above=2cm of qf10] {	\textbf{V}};
+                    \node[state] (qt11) [above=2cm of qf11] {	\textbf{V}};
+                    \node[state] (qt12) [above=2cm of qf12] {	\textbf{V}};
+                    \node[state] (qt13) [above=2cm of qf13] {	\textbf{V}};
+
+                    \node[state] (qd1) [right=2cm of qt13] {\textbf{d}};
+
+                    \path[->]
+
+                    % Transiciones de la primera cláusula
+                    % Desde qf0
+                    (qf10) edge node {1} (qt11)
+                    (qf10) edge node [below] {0} (qf11)
+
+                    % Desde qf1
+                    (qf11) edge node [below] {0, 1} (qf12)
+
+                    % Desde qf2
+                    (qf12) edge node {0} (qt13)
+                    (qf12) edge node [below] {1} (qf13)
+
+                    % Estados verdaderos permanecen verdaderos
+                    (qt10) edge node {0,1} (qt11)
+                    (qt11) edge node {0,1} (qt12)
+                    (qt12) edge node {0,1} (qt13)
+
+                    % Transición para d
+                    (qt13) edge node {d} (qd1)
+                    ;
+
+                \end{tikzpicture}
+
+            }
+        \end{otherlanguage}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Autómata Fórmula}
+    \textbf{Lenguaje de interpretaciones independientes: }
+    $\indlang(F) = \{w_1dw_2d\dots w_md |\;  w_i \text{ es una interpretación que satisface } C_i\}$
+
+    \textbf{Fórmula: }$(x_1 \lor \neg x_3) \land (\neg x_1 \lor \neg x_2) \rightsquigarrow (x_1 \lor \cancel{x_2} \lor \neg x_3) \land (\neg x_1 \lor {x_2} \lor \cancel{x_3})$
+
+    \begin{figure}[t]
+        \begin{otherlanguage}{english}
+            \centering
+            \scalebox{0.65}{
+                \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+
+                    % ------ Primera cláusula ------
+                    % Estados falsos
+                    \node[state, initial] (qf10) {	\textbf{F}};
+                    \node[state] (qf11) [right=1.75cm of qf10] {	\textbf{F}};
+                    \node[state] (qf12) [right=1.75cm of qf11] {	\textbf{F}};
+                    \node[state] (qf13) [right=1.75cm of qf12] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt10) [above=2cm of qf10] {	\textbf{V}};
+                    \node[state] (qt11) [above=2cm of qf11] {	\textbf{V}};
+                    \node[state] (qt12) [above=2cm of qf12] {	\textbf{V}};
+                    \node[state] (qt13) [above=2cm of qf13] {	\textbf{V}};
+
+                    % Estado d
+                    \node[state] (qd1) [right=1.75cm of qt13] {\textbf{d}};
+
+                    % ------------------------------
+
+                    % ------ Segunda cláusula ------
+                    % Estados falsos
+                    \node[state] (qf20) [right=3.5cm of qf13]{	\textbf{F}};
+                    \node[state] (qf21) [right=1.75cm of qf20] {	\textbf{F}};
+                    \node[state] (qf22) [right=1.75cm of qf21] {	\textbf{F}};
+                    \node[state] (qf23) [right=1.75cm of qf22] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt20) [above=2cm of qf20] {	\textbf{V}};
+                    \node[state] (qt21) [above=2cm of qf21] {	\textbf{V}};
+                    \node[state] (qt22) [above=2cm of qf22] {	\textbf{V}};
+                    \node[state] (qt23) [above=2cm of qf23] {	\textbf{V}};
+
+                    % Estado d
+                    \node[state, accepting] (qd2) [right=1.75cm of qt23] {\textbf{d}};
+
+                    % ------------------------------
+
+                    \path[->]
+
+                    % Transiciones de la primera cláusula
+                    % Desde qf0
+                    (qf10) edge node {1} (qt11)
+                    (qf10) edge node [below] {0} (qf11)
+
+                    % Desde qf1
+                    (qf11) edge node [below] {0, 1} (qf12)
+
+                    % Desde qf2
+                    (qf12) edge node {0} (qt13)
+                    (qf12) edge node [below] {1} (qf13)
+
+                    % Estados verdaderos permanecen verdaderos
+                    (qt10) edge node {0,1} (qt11)
+                    (qt11) edge node {0,1} (qt12)
+                    (qt12) edge node {0,1} (qt13)
+
+                    % Transición para d
+                    (qt13) edge node {d} (qd1)
+
+                    % Transición entre cláusulas
+                    (qd1) edge node {$\eword$} (qf20)
+
+                    % Transiciones de la segunda cláusula
+                    % Desde qf0
+                    (qf20) edge node {0} (qt21)
+                    (qf20) edge node [below] {1} (qf21)
+
+                    % Desde qf1
+                    (qf21) edge node [below] {0} (qf22)
+                    (qf21) edge node {1} (qt22)
+                    (qf22) edge node [below] {0, 1} (qf23)
+
+                    % Estados verdaderos permanecen verdaderos
+                    (qt20) edge node {0,1} (qt21)
+                    (qt21) edge node {0,1} (qt22)
+                    (qt22) edge node {0,1} (qt23)
+
+                    % Transición para d
+                    (qt23) edge node {d} (qd2)
+
+                    ;
+
+                \end{tikzpicture}
+
+            }
+        \end{otherlanguage}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Autómata Fórmula}
+    \textbf{Lenguaje de interpretaciones independientes: }
+    $\indlang(F) = \{w_1dw_2d\dots w_md |\;  w_i \text{ es una interpretación que satisface } C_i\}$
+
+    \textbf{Fórmula: }$(x_1 \lor \neg x_3) \land (\neg x_1 \lor \neg x_2) \rightsquigarrow (x_1 \lor \cancel{x_2} \lor \neg x_3) \land (\neg x_1 \lor {x_2} \lor \cancel{x_3})$
+
+    \begin{figure}[t]
+        \begin{otherlanguage}{english}
+            \centering
+            \scalebox{0.65}{
+                \begin{tikzpicture}[shorten >=1pt, node distance=2.5cm, on grid, auto]
+
+                    % ------ Primera cláusula ------
+                    % Estados falsos
+                    \node[state, initial] (qf10) {	\textbf{F}};
+                    \node[state] (qf11) [right=1.75cm of qf10] {	\textbf{F}};
+                    \node[state] (qf12) [right=1.75cm of qf11] {	\textbf{F}};
+                    \node[state] (qf13) [right=1.75cm of qf12] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt10) [above=2cm of qf10] {	\textbf{V}};
+                    \node[state] (qt11) [above=2cm of qf11] {	\textbf{V}};
+                    \node[state] (qt12) [above=2cm of qf12] {	\textbf{V}};
+                    \node[state] (qt13) [above=2cm of qf13] {	\textbf{V}};
+
+                    % Estado d
+                    % \node[state] (qd1) [right=2cm of qt13] {$q_{d1}$};
+
+                    % ------------------------------
+
+                    % ------ Segunda cláusula ------
+                    % Estados falsos
+                    \node[state] (qf20) [right=1.75cm of qf13]{	\textbf{F}};
+                    \node[state] (qf21) [right=1.75cm of qf20] {	\textbf{F}};
+                    \node[state] (qf22) [right=1.75cm of qf21] {	\textbf{F}};
+                    \node[state] (qf23) [right=1.75cm of qf22] {	\textbf{F}};
+
+                    % Estados verdaderos
+                    \node[state] (qt20) [above=2cm of qf20] {	\textbf{V}};
+                    \node[state] (qt21) [above=2cm of qf21] {	\textbf{V}};
+                    \node[state] (qt22) [above=2cm of qf22] {	\textbf{V}};
+                    \node[state] (qt23) [above=2cm of qf23] {	\textbf{V}};
+
+                    % Estado d
+                    \node[state, accepting] (qd2) [right=1.75cm of qt23] {\textbf{d}};
+
+                    % ------------------------------
+
+                    \path[->]
+
+                    % Transiciones de la primera cláusula
+                    % Desde qf0
+                    (qf10) edge node {1} (qt11)
+                    (qf10) edge node [below] {0} (qf11)
+
+                    % Desde qf1
+                    (qf11) edge node [below] {0, 1} (qf12)
+
+                    % Desde qf2
+                    (qf12) edge node {0} (qt13)
+                    (qf12) edge node [below] {1} (qf13)
+
+                    % Estados verdaderos permanecen verdaderos
+                    (qt10) edge node {0,1} (qt11)
+                    (qt11) edge node {0,1} (qt12)
+                    (qt12) edge node {0,1} (qt13)
+
+                    % Transición para d
+                    (qt13) edge node {d} (qf20)
+
+                    % Transición entre cláusulas
+                    % (qd1) edge node {$\eword$} (qf20)
+
+                    % Transiciones de la segunda cláusula
+                    % Desde qf0
+                    (qf20) edge node {0} (qt21)
+                    (qf20) edge node [below] {1} (qf21)
+
+                    % Desde qf1
+                    (qf21) edge node [below] {0} (qf22)
+                    (qf21) edge node {1} (qt22)
+                    (qf22) edge node [below] {0, 1} (qf23)
+
+                    % Estados verdaderos permanecen verdaderos
+                    (qt20) edge node {0,1} (qt21)
+                    (qt21) edge node {0,1} (qt22)
+                    (qt22) edge node {0,1} (qt23)
+
+                    % Transición para d
+                    (qt23) edge node {d} (qd2)
+
+                    ;
+
+                \end{tikzpicture}
+
+            }
+        \end{otherlanguage}
+    \end{figure}
+
+    \pause
+    Autómata fórmula $\aut{F}$
+
+    \large
+    \[
+        L(\aut{F}) = \indlang(F)
+    \]
+\end{frame}
+
+\subsection{Recuperar la consistencia de las interpretaciones}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
 
 
 \end{document}
