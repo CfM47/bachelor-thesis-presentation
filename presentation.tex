@@ -1551,4 +1551,185 @@
     \end{center}
 \end{frame}
 
+\begin{frame}{Preguntas de oponencia}
+    \begin{itemize}
+        \item Analice las consecuencias de la refutación presentada para la literatura que utiliza el cierre de las pMCFG bajo intersección con lenguajes regulares y/o el algoritmo de construcción asociado. Distinga entre los usos del resultado para pMCFG generales, potencialmente no lineales, y los usos restringidos a MCFG, LCFRS u otros formalismos lineales. Indique cuáles resultados posteriores podrían quedar sin demostración, cuáles requerirían una corrección, y en qué casos no se afectan las conclusiones obtenidas.
+
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Preguntas de oponencia}
+    En el artículo ``Finite state translation
+    systems and parallel multiple
+    context-free grammars'' se utiliza que las pMCFG son cerradas bajo intersección con lenguajes regulares, para demostar que el lenguaje generado por los sistemas de traducción de estado finito deterministas es exactamente el mismo que el generado por las pMCFG.
+\end{frame}
+
+\begin{frame}{Preguntas de oponencia}
+    \begin{itemize}
+        \item Explique, usando la presentación original de Seki et al., qué papel cumple la no linealidad de las funciones de reordenamiento en el contraejemplo presentado. En particular, identifique el paso de la construcción del Teorema 3.9(3) donde se pierde la correspondencia esperada con el lenguaje intersección y discuta si el mismo tipo de fallo podría aparecer, o no, en el caso restringido de las MCFG.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Preguntas de oponencia}
+    \begin{figure}
+        \includegraphics[width=0.8\textwidth]{easily.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Preguntas de oponencia}
+    \textbf{Se deja de cumplir la invariante}
+
+    \[
+        (w_1,\ldots,w_d)\in L(A[(p_1,q_1),\ldots,(p_d,q_d)])
+        \Longleftrightarrow
+        (w_1,\ldots,w_d)\in L(A)
+    \]
+
+    \begin{center}
+        y cada \(w_i\) lleva al DFA de \(p_i\) a \(q_i\).
+    \end{center}
+
+
+    \pause
+
+    \textbf{Símbolo inicial}
+
+    \[
+        S' \rightarrow S[(q_0,q_f)]
+        \qquad q_f \in F_{\mathcal A}
+    \]
+\end{frame}
+
+\begin{frame}{Preguntas de oponencia}
+    \begin{itemize}
+        \item Comente posibles restricciones o modificaciones bajo las cuales podría recuperarse la correctitud de la construcción de intersección entre una pMCFG y un DFA. En particular, valore si basta restringirse al caso lineal de las MCFG, si podría admitirse alguna forma limitada de copia, o si sería necesario cambiar sustancialmente la información que la construcción mantiene sobre los estados del autómata.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Preguntas de oponencia}
+
+    \textbf{Enriquecimiento}
+
+    Cada no terminal \(A\) de dimensión \(d\) se decora con una tupla de
+    \emph{conjuntos} de pares de estados:
+    \[
+        A[R_1,\ldots,R_d],
+        \qquad R_i \subseteq Q_{\mathcal A}\times Q_{\mathcal A}.
+    \]
+
+    \pause
+
+    \textbf{Invariante}
+
+    \[
+        (w_1,\ldots,w_d)\in L(A[R_1,\ldots,R_d])
+        \Longleftrightarrow
+        (w_1,\ldots,w_d)\in L(A)
+    \]
+    \begin{center}
+        y cada \(w_i\) lleva al DFA de \(p\) a \(q\) para cada \((p,q)\in R_i\).
+    \end{center}
+
+    \pause
+
+    \textbf{Símbolo inicial}
+
+    \[
+        S' \rightarrow S[\{(q_0,q_f)\}]
+        \qquad q_f \in F_{\mathcal A}
+    \]
+
+\end{frame}
+
+\begin{frame}{Preguntas de oponencia}
+    \begin{itemize}
+        \item Valore si, a partir de una instancia F de SAT con m cláusulas, puede construirse una MCFG que genere el lenguaje $\{(wd)^m | w \in \{0,1\}*\}$, de modo que al intersectarla con el lenguaje regular $L_{ind}(F)$ se obtenga una reducción alternativa basada solo en MCFG, caso que queda fuera del contraejemplo presentado. Discuta, en particular, qué ocurre con la dimensión de la gramática, con el tamaño de la construcción de intersección resultante y si este enfoque es útil o teóricamente interesante desde el punto de vista de la complejidad de SAT.
+
+    \end{itemize}
+\end{frame}
+
+% Asumo \newcommand{\repeatlang}{L_{\mathrm{rep}}} y \(\mathcal A\) como tu DFA.
+
+\begin{frame}{$k$-MCFG}
+    La \emph{dimensión} (fan-out) de un no terminal es el número de
+    componentes de las tuplas que deriva.
+
+    \pause
+    \begin{block}{Definición}
+        Una \(k\)-MCFG es una MCFG en la que ningún no terminal tiene
+        dimensión mayor que \(k\). Su clase de lenguajes es la de los
+        \(k\)-MCFL.
+    \end{block}
+\end{frame}
+
+\begin{frame}{Un \(k\) fijo sí se puede: \(\{(wd)^k\}\) con \(k=3\)}
+    \(A\) de dimensión \(3\) deriva tripletas \emph{iguales} \((w,w,w)\):
+    cada regla añade el mismo terminal a las tres componentes.
+    \[
+        \begin{aligned}
+            A(\varepsilon,\varepsilon,\varepsilon) &                           \\
+            A(x_1 0,\, x_2 0,\, x_3 0)             & \leftarrow A(x_1,x_2,x_3) \\
+            A(x_1 1,\, x_2 1,\, x_3 1)             & \leftarrow A(x_1,x_2,x_3) \\
+            S(x_1\, d\, x_2\, d\, x_3\, d)         & \leftarrow A(x_1,x_2,x_3)
+        \end{aligned}
+    \]
+    \pause
+    \[
+        L(S)=\{(wd)^3 \mid w\in\{0,1\}^*\}\quad\text{(un \(3\)-MCFL).}
+    \]
+\end{frame}
+
+\begin{frame}{Costo de la intersección con un DFA}
+    Decorar cada no terminal de dimensión \(d\) con \(d\) pares de estados
+    produce \(\sim |Q_{\mathcal A}|^{2d}\) instancias.
+
+    \[
+        % pega aquí tu fórmula
+    \]
+
+    \pause
+    \begin{center}
+        Polinomial en los estados \(|Q_{\mathcal A}|\),
+        \alert{exponencial en la dimensión} de la gramática.
+    \end{center}
+\end{frame}
+
+\begin{frame}{Lema de bombeo para \(k\)-MCFL}
+    \begin{block}{Lema}
+        Para todo \(k\)-MCFL \(L\) infinito existen \(u_j\in T^*\)
+        \((1\le j\le k+1)\) y \(v_j,w_j,s_j\in T^*\) \((1\le j\le k)\) tales que
+        \begin{enumerate}
+            \item \(\sum_{j=1}^{k}\lvert v_j s_j\rvert>0\), y
+            \item para todo \(i\ge 0\),
+        \end{enumerate}
+        \[
+            z_i=u_1 v_1^i w_1 s_1^i\, u_2 v_2^i w_2 s_2^i\cdots
+            u_k v_k^i w_k s_k^i\, u_{k+1}\in L.
+        \]
+    \end{block}
+\end{frame}
+
+\begin{frame}{Por qué \(\repeatlang\) no es \(k\)-MCFL para ningún \(k\) fijo}
+    Al bombear \(L_k=\{(wd)^k\}\), ningún \(v_j,s_j\) puede contener \(d\)
+    (hay exactamente \(k\) separadores): el bombeo ocurre dentro de las
+    \(k\) copias de \(w\). Mantenerlas idénticas mientras \(w\) crece exige
+    \(k\) ventanas coordinadas; una gramática de dimensión \(k-1\) no las da.
+    \[
+        L_k\ \text{es }k\text{-MCFL}\quad\text{pero}\quad
+        L_k\notin (k-1)\text{-MCFL.}
+    \]
+    \pause
+    \begin{center}
+        Luego \(\displaystyle\repeatlang=\bigcup_{k\ge 1}L_k\) no es
+        \(k\)-MCFL para ningún \(k\) fijo.
+    \end{center}
+    \pause
+    \begin{block}{Consecuencia}
+        Más cláusulas \(\Rightarrow\) más copias \(\Rightarrow\) mayor
+        dimensión, y la intersección con un regular crece
+        \alert{exponencialmente} en la dimensión.
+    \end{block}
+\end{frame}
+
+
 \end{document}
