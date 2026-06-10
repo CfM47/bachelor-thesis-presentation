@@ -1662,23 +1662,6 @@
     \end{block}
 \end{frame}
 
-\begin{frame}{Un \(k\) fijo sí se puede: \(\{(wd)^k\}\) con \(k=3\)}
-    \(A\) de dimensión \(3\) deriva tripletas \emph{iguales} \((w,w,w)\):
-    cada regla añade el mismo terminal a las tres componentes.
-    \[
-        \begin{aligned}
-            A(\varepsilon,\varepsilon,\varepsilon) &                           \\
-            A(x_1 0,\, x_2 0,\, x_3 0)             & \leftarrow A(x_1,x_2,x_3) \\
-            A(x_1 1,\, x_2 1,\, x_3 1)             & \leftarrow A(x_1,x_2,x_3) \\
-            S(x_1\, d\, x_2\, d\, x_3\, d)         & \leftarrow A(x_1,x_2,x_3)
-        \end{aligned}
-    \]
-    \pause
-    \[
-        L(S)=\{(wd)^3 \mid w\in\{0,1\}^*\}\quad\text{(un \(3\)-MCFL).}
-    \]
-\end{frame}
-
 \begin{frame}{Costo de la intersección con un DFA}
     Decorar cada no terminal de dimensión \(d\) con \(d\) pares de estados
     produce \(\sim |Q_{\mathcal A}|^{2d}\) instancias.
@@ -1710,10 +1693,7 @@
 \end{frame}
 
 \begin{frame}{Por qué \(\repeatlang\) no es \(k\)-MCFL para ningún \(k\) fijo}
-    Al bombear \(L_k=\{(wd)^k\}\), ningún \(v_j,s_j\) puede contener \(d\)
-    (hay exactamente \(k\) separadores): el bombeo ocurre dentro de las
-    \(k\) copias de \(w\). Mantenerlas idénticas mientras \(w\) crece exige
-    \(k\) ventanas coordinadas; una gramática de dimensión \(k-1\) no las da.
+    Al aplicar el teorema se tiene que
     \[
         L_k\ \text{es }k\text{-MCFL}\quad\text{pero}\quad
         L_k\notin (k-1)\text{-MCFL.}
@@ -1730,6 +1710,5 @@
         \alert{exponencialmente} en la dimensión.
     \end{block}
 \end{frame}
-
 
 \end{document}
